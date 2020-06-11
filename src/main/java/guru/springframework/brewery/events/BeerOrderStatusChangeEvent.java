@@ -17,20 +17,42 @@
 
 package guru.springframework.brewery.events;
 
+import guru.springframework.brewery.domain.Beer;
 import guru.springframework.brewery.domain.BeerOrder;
 import guru.springframework.brewery.domain.OrderStatusEnum;
+import guru.springframework.brewery.web.model.BeerOrderDto;
+import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.context.ApplicationEvent;
 
+
+@Getter
+@Setter
 public class BeerOrderStatusChangeEvent extends ApplicationEvent {
 
     private final OrderStatusEnum previousStatus;
+    private BeerOrder beerOrder;
+    private BeerOrderDto beerOrderDto;
 
     public BeerOrderStatusChangeEvent(BeerOrder source, OrderStatusEnum previousStatus) {
         super(source);
         this.previousStatus = previousStatus;
     }
 
+    public BeerOrderStatusChangeEvent(BeerOrder source, OrderStatusEnum previousStatus, BeerOrderDto beerOrderDto) {
+        super(source);
+        this.previousStatus = previousStatus;
+        this.beerOrderDto = beerOrderDto;
+    }
+
+    public BeerOrder getBeerOrder() {
+        return (BeerOrder) source;
+    }
+
     public OrderStatusEnum getPreviousStatus() {
         return previousStatus;
     }
+
+
 }
